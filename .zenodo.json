@@ -1,0 +1,28 @@
+{
+  "title": "Project-Libelle",
+  "description": "A small-scale, low-cost shortwave pyranometer for spectrally-resolved measurement of UV, visible, and near-infrared solar radiation.",
+  "upload_type": "other",
+  "license": "CC-BY-SA-4.0",
+  "creators": [
+    {
+      "name": "Schulz, Bobby",
+      "orcid": "0000-0002-9272-4756"
+    },
+    {
+      "name": "Wickert, Andy",
+      "affiliation": "Northern Widget LLC",
+      "orcid": "0000-0002-9545-3365"
+    }
+  ],
+  "keywords": [
+    "pyranometer",
+    "shortwave radiation",
+    "solar radiation",
+    "ultraviolet",
+    "near-infrared",
+    "atmospheric radiation",
+    "open hardware",
+    "environmental sensing"
+  ],
+  "access_right": "open"
+}
