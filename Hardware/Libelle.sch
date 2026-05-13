@@ -6395,7 +6395,7 @@ Source: AVX .. aphvc.pdf</description>
 <part name="J2" library="bschulz" deviceset="CONN_4" device="2.54"/>
 <part name="FRAME2" library="bschulz" deviceset="FRAME_A_L" device="">
 <attribute name="DESIGNER" value="Bobby Schulz"/>
-<attribute name="PROJECT" value="Dyson"/>
+<attribute name="PROJECT" value="Libelle"/>
 <attribute name="REV" value="0.0"/>
 </part>
 <part name="J3" library="bschulz" deviceset="CONN_4" device="2.54"/>

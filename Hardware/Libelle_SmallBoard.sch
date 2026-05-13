@@ -9282,7 +9282,7 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <part name="J2" library="bschulz" deviceset="CONN_4" device="2.54"/>
 <part name="FRAME1" library="bschulz" deviceset="FRAME_A_L" device="">
 <attribute name="DESIGNER" value="Bobby Schulz"/>
-<attribute name="PROJECT" value="Monarch"/>
+<attribute name="PROJECT" value="Libelle"/>
 <attribute name="REV" value="0.1"/>
 </part>
 <part name="J3" library="bschulz" deviceset="CONN_4" device="2.54"/>
