@@ -1,5 +1,7 @@
 # Project-Libelle
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.2525455.svg)](https://doi.org/10.5281/zenodo.2525455)
+
 *Libelle* is a spectrally-resolving shortwave pyranometer that measures solar irradiance across six spectral bands from UV-B through short-wave infrared (~280–1700 nm). The name is German for both "dragonfly" — an organism with up to 30 types of photoreceptors spanning UV to near-IR — and "spirit level," a nod to the onboard accelerometer used to correct measurements for sensor tilt.
 
 ![Libelle bare board next to a US quarter for scale](Documentation/images/LibelleBareBoard.jpg)
