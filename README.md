@@ -41,6 +41,8 @@ Two Libelle modules can share a single I²C bus simultaneously — one facing sk
 - **Supply:** 3.3–5.5 V (onboard 3.3 V LDO, max input 5.5 V; I²C lines are level-shifted to match host supply)
 - **Interface:** I²C (slave)
 - **Connectors:** 4-pin screw terminal (J1) and 4-pin headers (J2–J4); ISP header for ATtiny firmware updates (ISP1)
+- **JP1:** module I²C address select (open → `0x40`; bridged → `0x41`)
+- **JP2:** ADXL343 accelerometer I²C address select (open → `0x1D`; bridged → `0x53`); for advanced use only — firmware assumes `0x1D`
 
 ### External connector pinout
 
