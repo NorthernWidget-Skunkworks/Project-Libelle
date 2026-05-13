@@ -36,7 +36,7 @@ Two Libelle modules can share a single I²C bus simultaneously — one facing sk
 
 ## Electrical
 
-- **Supply:** 3.3–5 V (onboard 3.3 V LDO; I²C lines are level-shifted to match host supply)
+- **Supply:** 3.3–5.5 V (onboard 3.3 V LDO, max input 5.5 V; I²C lines are level-shifted to match host supply)
 - **Interface:** I²C (slave)
 - **Connectors:** 4-pin screw terminal (J1) and 4-pin headers (J2–J4); ISP header for ATtiny firmware updates (ISP1)
 
@@ -44,7 +44,7 @@ Two Libelle modules can share a single I²C bus simultaneously — one facing sk
 
 | Pin | Function |
 |-----|----------|
-| VIN | Supply (3.3–5 V) |
+| VIN | Supply (3.3–5.5 V) |
 | GND | Ground |
 | SDA | I²C data |
 | SCL | I²C clock |
