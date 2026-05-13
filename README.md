@@ -29,12 +29,12 @@ The board integrates its sub-sensors through an ATtiny841, which aggregates thei
 
 ### Net radiation
 
-Two Libelle modules can share a single I²C bus simultaneously — one facing skyward (UP) and one facing down (DOWN) — to compute net shortwave radiation (↓ − ↑). The I²C address is set by the address select solder jumper:
+Two Libelle modules can share a single I²C bus simultaneously — one facing skyward (UP) and one facing down (DOWN) — to compute net shortwave radiation (↓ − ↑). The I²C address is set by solder jumper JP1:
 
 | Orientation | Address |
 |-------------|---------|
-| Up (default, jumper open) | `0x40` |
-| Down (jumper bridged) | `0x41` |
+| Up (default, JP1 open) | `0x40` |
+| Down (JP1 bridged) | `0x41` |
 
 ## Electrical
 
