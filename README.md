@@ -1,6 +1,8 @@
 # Project-Libelle
 Designs for a small scale and low cost shortwave pyranometer measuring UV, visible, and near-infrared solar radiation
 
+![Libelle bare board](Documentation/images/LibelleBareBoard.jpg)
+
 ## Millable components
 
 * [Pipe mount](https://easel.inventables.com/projects/cAirZefIUws53oghGYYopw). Accepts 1.25" to 3.25" innner diameter (ID) 1/4" (bolt diameter) U bolts. (1 1/8" U bolts are possible if you're willing to bend them.) Typical sizes available in the USA are 1.25", 1.5", 1.75", and 2".
