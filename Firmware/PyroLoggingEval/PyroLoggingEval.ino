@@ -174,7 +174,7 @@ int LogStr(String Val) {
   DataFile.close();
 }
 
-// uint8_t InitMonarch() 
+// uint8_t InitLibelle()
 // {
 
 // }

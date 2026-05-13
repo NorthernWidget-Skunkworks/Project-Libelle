@@ -1,5 +1,5 @@
 
-Pin Functionality Monarch Short-Wave
+Pin Functionality Libelle Short-Wave
 
 Pin		Function
 D0		Lux Int, Active Low

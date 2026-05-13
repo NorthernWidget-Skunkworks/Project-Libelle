@@ -1,11 +1,11 @@
 /******************************************************************************
-MonarchDemoRead.cpp
-Demo script for Monarch shortwave pyronometer interface
+LibelleDemoRead.ino
+Demo script for Libelle shortwave pyranometer interface
 Bobby Schulz @ Northern Widget LLC
 6/13/2018
-https://github.com/NorthernWidget-Skunkworks/Project-Monarch
+https://github.com/NorthernWidget-Skunkworks/Project-Libelle
 
-This script is used to demonstrate the interface to the Monarch shortwave pyranometer module and provide 
+This script is used to demonstrate the interface to the Libelle shortwave pyranometer module and provide
 conversions for some of the values into the appropriate human-readable units.
 
 "The laws of nature are constructed in such a way as to make the universe as interesting as possible."
@@ -76,7 +76,7 @@ void loop() {
 
 }
 
-uint8_t InitMonarch() 
+uint8_t InitLibelle()
 {
 
 }
