@@ -116,6 +116,10 @@ CNC-millable mounting hardware designs are available on [Easel (Inventables)](ht
 - [Pipe mount](https://easel.inventables.com/projects/cAirZefIUws53oghGYYopw) — accepts 1.25"–3.25" ID pipe with 1/4" U-bolts (common US sizes: 1.25", 1.5", 1.75", 2")
 - [Drilling jig](https://easel.inventables.com/projects/s-fOn9DWTmkeizO0vO8MGw) — for the Libelle enclosure box
 
+| Pipe mount | Enclosure circle cut |
+|---|---|
+| ![Pipe mount CNC design](Documentation/images/LibellePipeMount.png) | ![Enclosure circle cut CNC design](Documentation/images/LibelleBoxCircleCut.png) |
+
 SolidWorks source files and STLs are in [`Mechanical/`](Mechanical/).
 
 ## Related projects

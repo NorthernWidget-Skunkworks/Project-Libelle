@@ -55,3 +55,6 @@ eagle.epf
 ~\$*\.SLDPRT
 
 *.dmp
+
+# Claude Code local settings
+.claude/
