@@ -3,12 +3,13 @@
 ## Power supply: LDO vs. buck converter
 
 The TPS79733 (ultra-low-Iq 3.3 V LDO, <1 µA Iq) was chosen over a synchronous buck converter
-(TPS62172, 500 mA, 2.5–7 V input). The `Simulations/` directory contains the exploration:
+(TPS62172, 500 mA, 2.5–7 V input). Two simulation files documenting this exploration were
+removed from the repo after this note was written (recoverable from git history):
 
-- `Simulations/slvm434a/` — PSpice transient startup simulation of TPS62172
+- `Simulations/slvm434a/` — PSpice transient startup simulation of TPS62172 (OrCAD binary)
 - `Simulations/PowerFilter.asc` — LTSpice AC sweep of LC + RC output filter topologies
-  (L swept 100 µH–2 mH, R = 27 Ω, C = 44 µF), likely used to evaluate whether buck
-  switching noise could be adequately filtered for the analog signal chain
+  (L swept 100 µH–2 mH, R = 27 Ω, C = 44 µF), evaluating whether buck switching noise
+  could be adequately filtered for the analog signal chain
 
 The LDO was chosen for two reasons:
 
