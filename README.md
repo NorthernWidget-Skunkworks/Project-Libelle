@@ -109,6 +109,111 @@ Libelle pyroDown(DOWN);
 
 `getIR_Short()` and `getIR_Mid()` return transimpedance amplifier output voltage, not W/m². Converting to irradiance requires calibration against a reference pyranometer; see the [library documentation](https://github.com/NorthernWidget-Skunkworks/Libelle_Library) for details.
 
+## Register map and firmware internals
+
+The Libelle firmware runs on an ATtiny841 bridge, which exposes an I2C slave register map to the host logger. Default I2C addresses: `0x40` (UP orientation), `0x41` (DOWN orientation). The onboard ADXL343 accelerometer is read directly by the master on the same I2C bus (not bridged through the ATtiny).
+
+Two layouts exist: the **current firmware** (deployed) and the **proposed** layout under [NW-Device-Specification](https://github.com/NorthernWidget/NW-Device-Specification) Schema 1.
+
+### Current register map (deployed firmware)
+
+26-byte array. Status ready flag is bit 7.
+
+```
+0x00        CTRL/Status   bit 7=ready; bit 2=auto-range disable;
+                          bit 3=manual auto-range trigger; bits 1:0=update rate
+0x01        —             unused
+0x02–0x05   UVA           int32, compensated VEML6075 counts, little-endian
+0x06        —             gap (always 0x00) ← ⚠ BUG: see below
+0x07–0x0A   UVB           int32, compensated VEML6075 counts, little-endian
+0x0B–0x0C   ALS           uint16, raw VEML6030 counts (visible)
+0x0D–0x0E   White         uint16, raw VEML6030 counts
+0x0F        —             gap
+0x10–0x11   Lux mult      uint16, auto-range gain×integration scaler
+0x12        —             gap
+0x13–0x14   IR_Mid        uint16, raw ADS1115 counts (×1.25e-4 → V)
+0x15–0x16   IR_Short      uint16, raw ADS1115 counts (×1.25e-4 → V)
+0x17–0x18   Therm         uint16, raw ADS1115 counts (Steinhart-Hart → °C)
+```
+
+### ⚠ Known bug: UVB reads 256× too large
+
+The firmware writes UVB starting at register `0x07`. The library reads UVB starting at `UVB_ADR = 0x06`. This off-by-one causes the library to assemble the UVB int32 as:
+
+```
+Byte 0 (LSB): Reg[0x06] = 0x00  ← always zero (gap byte)
+Byte 1:       Reg[0x07] = UVB true byte 0
+Byte 2:       Reg[0x08] = UVB true byte 1
+Byte 3 (MSB): Reg[0x09] = UVB true byte 2  ← true byte 3 (Reg[0x0A]) dropped
+```
+
+Result: `getUVB()` returns approximately `true_UVB × 256`. All historical UVB data collected with this firmware and library combination is affected by this systematic error. See [issue #TBD](https://github.com/NorthernWidget/Project-Libelle/issues) for tracking.
+
+### Proposed register map (NW-Device-Specification Schema 1)
+
+Two 32-byte pages. The UVB register mismatch is corrected in this layout.
+
+**Page 0 (0x00–0x1F) — Identity (EEPROM)**
+
+```
+Block 0 (0x00–0x07)   Core identity
+  0x00        0x01                          Schema (NW-Device-Specification v1)
+  0x01–0x07   'L','i','b','e','l','l','e'   Device name (7 bytes, exact fit)
+
+Block 1 (0x08–0x0F)   Version
+  0x08        HW major
+  0x09        HW minor
+  0x0A        FW patch          (NW combined-repo convention)
+  0x0B–0x0D   0x00,0x00,0x00    Unused (combined repo)
+  0x0E–0x0F   0x00,0x00         Reserved
+
+Block 2 (0x10–0x17)   Serial number
+  0x10–0x11   0x4C,0x01         Board type ('L'=0x4C, revision index 1)
+  0x12–0x13   [manufacture]     Group ID
+  0x14–0x15   [manufacture]     Unique ID
+  0x16–0x17   0x00,0x00         FirmwareID (legacy, reserved)
+
+Block 3 (0x18–0x1F)   Integrity + administration
+  0x18–0x1C   0x00 ×5           Reserved
+  0x1D        0x00              Magic byte (reserved; purpose TBD)
+  0x1E        [computed]        CRC-8 of bytes 0x00–0x1D
+  0x1F        0x40 or 0x41      I2C address (0x40=UP, 0x41=DOWN; writable)
+```
+
+**Page 1 (0x20–0x3F) — Sensor data (SRAM)**
+
+```
+Block 0 (0x20–0x27)   VEML6030 — visible light
+  0x20        Status       bit 0=ready, bit 1=VEML6075 fault,
+                           bit 2=VEML6030 fault, bit 3=ADS1115 fault
+  0x21–0x22   ALS          uint16, raw VEML6030 counts, little-endian
+  0x23–0x24   White        uint16, raw VEML6030 counts, little-endian
+  0x25–0x26   Lux mult     uint16, auto-range scaler (ALS × mult × 0.0036 → lux)
+  0x27        Reserved
+
+Block 1 (0x28–0x2F)   VEML6075 — UV
+  0x28–0x2B   UVA          int32, compensated counts, little-endian
+  0x2C–0x2F   UVB          int32, compensated counts, little-endian
+
+Block 2 (0x30–0x37)   ADS1115 — IR + temperature
+  0x30–0x31   IR Short     uint16, raw ADC counts (×1.25e-4 → V)
+  0x32–0x33   IR Mid       uint16, raw ADC counts (×1.25e-4 → V)
+  0x34–0x35   Temperature  uint16, raw ADC counts (Steinhart-Hart → °C in library)
+  0x36–0x37   Reserved
+
+Block 3 (0x38–0x3F)   Reserved
+```
+
+No Page 2. Calibration constants (Steinhart-Hart coefficients, UV cross-talk compensation) are currently hardcoded in the library. If per-unit calibration is added, Page 2 is the natural home.
+
+The ADXL343 accelerometer remains directly accessible to the master at address `0x1D` (UP) or `0x53` (DOWN) and is not bridged through the ATtiny register map.
+
+### Migration notes for Schema 1 update
+
+1. **Status bit:** Current firmware uses bit 7; Schema 1 uses bit 0.
+2. **UVB register offset:** Correct firmware to write UVB at `0x28` (Page 1, Block 1) — eliminates the ×256 error.
+3. **Auto-range:** `bit 2` and `bit 3` of CTRL need equivalent representation in Schema 1 status/config byte.
+
 ## Mechanical
 
 CNC-millable mounting hardware designs are available on [Easel (Inventables)](https://www.inventables.com/):
