@@ -201,12 +201,16 @@ Block 2 (0x30–0x37)   ADS1115 — IR + temperature
   0x34–0x35   Temperature  uint16, raw ADC counts (Steinhart-Hart → °C in library)
   0x36–0x37   Reserved
 
-Block 3 (0x38–0x3F)   Reserved
+Block 3 (0x38–0x3F)   ADXL343 — accelerometer (hardware v2 only; see below)
+  0x38–0x39   Accel X   int16, little-endian
+  0x3A–0x3B   Accel Y   int16, little-endian
+  0x3C–0x3D   Accel Z   int16, little-endian
+  0x3E–0x3F   Reserved
 ```
 
-No Page 2. Calibration constants (Steinhart-Hart coefficients, UV cross-talk compensation) are currently hardcoded in the library. If per-unit calibration is added, Page 2 is the natural home.
+No Page 2. Calibration constants (Steinhart-Hart coefficients, UV cross-talk compensation) are currently hardcoded in the library. If per-unit calibration is added, Page 2 is the natural home. Accelerometer calibration offsets, if needed, would also go in Page 2 following the pattern of the Apis sensor.
 
-The ADXL343 accelerometer remains directly accessible to the master at address `0x1D` (UP) or `0x53` (DOWN) and is not bridged through the ATtiny register map.
+**Accelerometer (ADXL343):** In the current hardware (v1), the ADXL343 is wired to the master's I2C bus and read directly by the library at address `0x1D` (UP) or `0x53` (DOWN) — it is not bridged through the ATtiny. This requires the logger to manage two I2C addresses. In hardware v2, the ADXL343 will move to the ATtiny's software I2C bus so all data is accessible through a single address; Block 3 of Page 1 is reserved for this. See [issue #19](https://github.com/NorthernWidget-Skunkworks/Project-Libelle/issues/19).
 
 ### Migration notes for Schema 1 update
 
