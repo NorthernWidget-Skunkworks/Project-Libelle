@@ -236,6 +236,19 @@ SolidWorks source files and STLs are in [`Mechanical/`](Mechanical/).
 - [Project-Liasis](https://github.com/NorthernWidget-Skunkworks/Project-Liasis) — companion longwave (thermal IR) pyrgeometer
 - [Liasis Library](https://github.com/NorthernWidget-Skunkworks/Liasis_Library) — Arduino library for the Liasis pyrgeometer
 
+## NW-Device-Specification — Schema 1, Page 0
+
+Implements [NW-Device-Specification](https://github.com/NorthernWidget/NW-Device-Specification) Schema 1. The 32-byte identity block (Page 0) is stored at the top of EEPROM:
+
+```
+Block 0:  Schema=0x01, Name='L','i','b','e','l','l','e'
+Block 1:  HW major=[mfr], HW minor=[mfr], FW patch=[mfr], 0x00,0x00,0x00, Reserved
+Block 2:  Board type=0x4C01 ('L'=0x4C, rev 1), Group ID=[mfr], Unique ID=[mfr], FirmwareID=0x0000
+Block 3:  Reserved, Magic=0x00, CRC=[computed], I2C address=0x4C (UP) / TBD (DOWN)
+```
+
+Legacy deployed units carry board types `0x2300`/`0x2301` (formerly Dyson SW, Monarch SW).
+
 ## License
 
 Hardware: <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a> <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International</a>
