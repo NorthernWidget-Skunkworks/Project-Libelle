@@ -185,11 +185,12 @@ Block 3 (0x18–0x1F)   Integrity + administration
 ```
 Block 0 (0x20–0x27)   VEML6030 — visible light
   0x20        Status       bit 0=ready, bit 1=VEML6075 fault,
-                           bit 2=VEML6030 fault, bit 3=ADS1115 fault
+                           bit 2=VEML6030 fault, bit 3=ADS1115 fault,
+                           bit 7=pan-fault
   0x21–0x22   ALS          uint16, raw VEML6030 counts, little-endian
   0x23–0x24   White        uint16, raw VEML6030 counts, little-endian
   0x25–0x26   Lux mult     uint16, auto-range scaler (ALS × mult × 0.0036 → lux)
-  0x27        Reserved
+  0x27        Extended faults (reserved, 0x00)
 
 Block 1 (0x28–0x2F)   VEML6075 — UV
   0x28–0x2B   UVA          int32, compensated counts, little-endian
@@ -214,7 +215,7 @@ No Page 2. Calibration constants (Steinhart-Hart coefficients, UV cross-talk com
 
 ### Migration notes for Schema 1 update
 
-1. **Status bit:** Current firmware uses bit 7; Schema 1 uses bit 0.
+1. **Status bit:** Current firmware uses bit 7 of `Reg[0x00]` as the ready flag; Schema 1 places the status byte at 0x20 with bit 0 as the ready flag. Both the register address and the bit position must change together.
 2. **UVB register offset:** Correct firmware to write UVB at `0x28` (Page 1, Block 1) — eliminates the ×256 error.
 3. **Auto-range:** `bit 2` and `bit 3` of CTRL need equivalent representation in Schema 1 status/config byte.
 
