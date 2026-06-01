@@ -187,10 +187,10 @@ Block 0 (0x20–0x27)   VEML6030 — visible light
   0x20        Status       bit 0=ready, bit 1=VEML6075 fault,
                            bit 2=VEML6030 fault, bit 3=ADS1115 fault,
                            bit 7=pan-fault
-  0x21–0x22   ALS          uint16, raw VEML6030 counts, little-endian
-  0x23–0x24   White        uint16, raw VEML6030 counts, little-endian
-  0x25–0x26   Lux mult     uint16, auto-range scaler (ALS × mult × 0.0036 → lux)
-  0x27        Extended faults (reserved, 0x00)
+  0x21        Extended faults (reserved, 0x00)
+  0x22–0x23   ALS          uint16, raw VEML6030 counts, little-endian
+  0x24–0x25   White        uint16, raw VEML6030 counts, little-endian
+  0x26–0x27   Lux mult     uint16, auto-range scaler (ALS × mult × 0.0036 → lux)
 
 Block 1 (0x28–0x2F)   VEML6075 — UV
   0x28–0x2B   UVA          int32, compensated counts, little-endian
